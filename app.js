@@ -18,15 +18,22 @@ var bake = function(preppedMeal) {
 }
 
 
-var cook = function(order) {
+var cook = function(order, thingToDoAfterCooking) {
 
     // 1. make dough
     // var dough = makeDough();
     // 2. put toppings on dough
     // var preppedMeal = putToppings(order, makeDough());
     // 3. bake
-    var cookedMeal = bake(putToppings(order, makeDough()));
+    var COOK_TIME = 3000;
+    var thingThatsTakingTime = function() {  
+             
+        var cookedMeal = bake(putToppings(order, makeDough()));
     
+        thingToDoAfterCooking(cookedMeal);
+    }
+    window.setTimeout(thingThatsTakingTime, COOK_TIME);
+
     return cookedMeal;
 }
 
@@ -41,13 +48,15 @@ var eat =  function(servedMeal) {
 
 
 var haveDinner = function(order) {
+
+    var thingToDoAfterCooking = function(cookedMeal) {
+        eat(serve(cookedMeal));
+    }
+
     
     // 1. cook food
-    var cookedMeal = cook(order);
-    // 2. serve food
-    var servedMeal = serve(cookedMeal);
-    // 3. eat food
-    eat(servedMeal);
+    cook(order, thingToDoAfterCooking);
+
 }
 
 
